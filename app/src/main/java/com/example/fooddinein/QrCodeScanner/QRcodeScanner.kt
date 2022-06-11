@@ -3,23 +3,19 @@ package com.example.fooddinein.QrCodeScanner
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.budiyev.android.codescanner.*
 import com.example.fooddinein.MenuItems
 import com.example.fooddinein.R
 
-private const val CAMERAPERMISSION=100
+private const val CAMERAPERMISSION = 100
+
 class QRcodeScanner : AppCompatActivity() {
 
     private lateinit var codeScanner: CodeScanner
@@ -34,33 +30,26 @@ class QRcodeScanner : AppCompatActivity() {
         codeScanner()
 
     }
-    private fun codeScanner(){
-        var scannerView =findViewById<CodeScannerView>(R.id.scanner_view)
-        var textView =findViewById<TextView>(R.id.text)
 
-        codeScanner= CodeScanner(this,scannerView)
+    private fun codeScanner() {
+        var scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
+        var textView = findViewById<TextView>(R.id.text)
+
+        codeScanner = CodeScanner(this, scannerView)
         codeScanner.apply {
-            camera=CodeScanner.CAMERA_BACK
-            formats=CodeScanner.ALL_FORMATS
-            autoFocusMode= AutoFocusMode.SAFE
-            scanMode= ScanMode.CONTINUOUS
-            isAutoFocusEnabled=true
-            isFlashEnabled=false
+            camera = CodeScanner.CAMERA_BACK
+            formats = CodeScanner.ALL_FORMATS
+            autoFocusMode = AutoFocusMode.SAFE
+            scanMode = ScanMode.CONTINUOUS
+            isAutoFocusEnabled = true
+            isFlashEnabled = false
 
-            decodeCallback= DecodeCallback {
-                runOnUiThread{
-                    intent = Intent(applicationContext, MenuItems::class.java)
-                    intent.putExtra("id",it.text)
-                    Log.e("TEXT1",it.text)
-                    startActivity(intent)
-                }
-            }
+            decodeCallback = DecodeCallback {
 
-            errorCallback= ErrorCallback {
-                runOnUiThread{
-                    Toast.makeText(this@QRcodeScanner,"Something went wrong please try again...",
-                        Toast.LENGTH_LONG).show()
-                }
+                intent = Intent(applicationContext, MenuItems::class.java)
+                intent.putExtra("id", it.text)
+                Log.e("TEXT1", it.text)
+                startActivity(intent)
             }
         }
     }
@@ -75,16 +64,21 @@ class QRcodeScanner : AppCompatActivity() {
         codeScanner.releaseResources()
     }
 
-    private fun setUpPermission()
-    {
-        val permission= ContextCompat.checkSelfPermission(this,
-            Manifest.permission.CAMERA)
-        if(permission != PackageManager.PERMISSION_GRANTED)
+    private fun setUpPermission() {
+        val permission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED)
             requestPermission()
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERAPERMISSION)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.CAMERA),
+            CAMERAPERMISSION
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -93,13 +87,13 @@ class QRcodeScanner : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode)
-        {
-            CAMERAPERMISSION ->{
-                if(grantResults.isEmpty()||grantResults[0]!= PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(this,"Camera Permission is required to scan the QR Code...",
-                        Toast.LENGTH_LONG).show()
+        when (requestCode) {
+            CAMERAPERMISSION -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(
+                        this, "Camera Permission is required to scan the QR Code...",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
