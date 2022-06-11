@@ -50,6 +50,7 @@ class QRcodeScanner : AppCompatActivity() {
                 intent.putExtra("id", it.text)
                 Log.e("TEXT1", it.text)
                 startActivity(intent)
+                finish()
             }
         }
     }
