@@ -48,7 +48,6 @@ class QRcodeScanner : AppCompatActivity() {
 
                 intent = Intent(applicationContext, MenuItems::class.java)
                 intent.putExtra("id", it.text)
-                Log.e("TEXT1", it.text)
                 startActivity(intent)
                 finish()
             }
