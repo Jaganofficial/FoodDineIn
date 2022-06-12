@@ -54,7 +54,7 @@ class AccountActivity : AppCompatActivity() {
                     Spacer(modifier = Modifier.height(20.dp))
                     OrderAttributes()
                     LazyColumn{
-                        items(10){
+                        items(5){
                             OrderRow("Chicken Pizza","$5.68", 3, "Pending")
                         }
                     }
@@ -86,29 +86,34 @@ class AccountActivity : AppCompatActivity() {
             .fillMaxWidth()
             .padding(10.dp)){
             items(10){
-                CartItemOrder()
+                CartItemOrder("Pizza")
             }
         }
     }
 
     @Composable
-    fun CartItemOrder() {
-        Box(modifier = Modifier.padding(10.dp)){
-            Card(shape = CircleShape, elevation = 2.dp) {
-                Box(modifier = Modifier.size(70.dp)){
-                    Image(painter = painterResource(id = R.mipmap.food), contentDescription = "food", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.linearGradient(
-                                listOf(Color.White, Color.White)
-                            ), alpha = 0.6f
-                        ), contentAlignment = Alignment.Center){
-                        Text(text = "x3", color = Color.DarkGray, fontSize = 34.sp, fontWeight = FontWeight.ExtraBold)
+    fun CartItemOrder(title: String) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(modifier = Modifier.padding(10.dp)){
+                Card(shape = CircleShape, elevation = 2.dp) {
+                    Box(modifier = Modifier.size(70.dp)){
+                        Image(painter = painterResource(id = R.mipmap.food), contentDescription = "food", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.linearGradient(
+                                    listOf(Color.White, Color.White)
+                                ), alpha = 0.6f
+                            ), contentAlignment = Alignment.Center){
+                            Text(text = "x3", color = Color.DarkGray, fontSize = 34.sp, fontWeight = FontWeight.ExtraBold)
+                        }
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = title, color = MaterialTheme.colors.onBackground, fontSize = 14.sp)
         }
+
     }
 
     @Composable
