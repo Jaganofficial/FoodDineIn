@@ -73,4 +73,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
+    //coil
+    implementation("io.coil-kt:coil-compose:2.1.0")
+
 }
